@@ -1,0 +1,50 @@
+﻿@model ChatViewModel
+
+@{
+    ViewData["Title"] = "Messages:";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Messages.Any())
+{
+    @foreach (var message in Model.Messages)
+    {
+        <div class="card .bg-light col-12">
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>@message.MessageText</p>
+                    <footer class="blockquote-footer">@message.Sender</footer>
+                </blockquote>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>No messages yet!</p>
+}
+<p></p>
+<form asp-controller="Chat" asp-action="Send" method="post">
+    <div class="form-group card-header row">
+        <div class="col-12">
+            <h4>Send a new message</h4>
+        </div>
+        <div class="col-9">
+            <label>Message: </label>
+            <textarea asp-for="CurrentMessage.MessageText" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="CurrentMessage.MessageText" class="small text-danger col-2"></span>
+
+        </div>
+        <div class="col-3">
+            <label>Sender name: </label>
+            <input asp-for="CurrentMessage.Sender" class="form-control" />
+            <input class="btn btn-primary mt-2 float-lg-right" type="submit" value="Send!" />
+            <span asp-validation-for="CurrentMessage.Sender" class="small text-danger col-2"></span>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
